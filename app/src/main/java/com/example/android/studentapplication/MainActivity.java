@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private ClassListAdapter mAdapter;
     private ClassListOpenHelper mDB;
     private CoordinatorLayout main;
-    private static final String BOOK_BASE_URL =  "https://www.googleapis.com/books/v1/volumes?";
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
 
@@ -155,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Enter URL address where your json file resides
                 // Even you can make call to php file which returns json data
-                url = new URL("http://testbed2.riktamtech.com:3000/sections");
+                url = new URL("http://192.168.10.214:3000/sections");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -213,10 +212,10 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             //this method will be running on UI thread
             Log.d("result",s);
-            if(s == "connectException") {
+            /*if(s == "connectException") {
                 Toast.makeText(getApplicationContext(),"Oops... Required Port Is Not Open On Server",Toast.LENGTH_LONG).show();
                 finish();
-            }
+            }*/
 
             pdLoading.dismiss();
             List<ClassItem> data=new ArrayList<>();

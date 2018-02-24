@@ -1,0 +1,21 @@
+# Created by .ignore support plugin (hsz.mobi)
+.gitignore
+app/libs/
+app/src/main/res/drawable-hdpi-v11/
+app/src/main/res/drawable-hdpi-v9/
+app/src/main/res/drawable-hdpi/
+app/src/main/res/drawable-mdpi-v11/
+app/src/main/res/drawable-mdpi-v9/
+app/src/main/res/drawable-mdpi/
+app/src/main/res/drawable-xhdpi-v11/
+app/src/main/res/drawable-xhdpi-v9/
+app/src/main/res/drawable-xhdpi/
+app/src/main/res/drawable-xxhdpi-v11/
+app/src/main/res/drawable-xxhdpi-v9/
+app/src/main/res/drawable-xxhdpi/
+build/android-profile/profile-2018-02-24-18-00-41-176.rawproto
+build/android-profile/profile-2018-02-24-18-01-09-323.rawproto
+build/android-profile/profile-2018-02-24-18-01-41-551.rawproto
+build/android-profile/profile-2018-02-24-18-04-12-502.rawproto
+build/android-profile/profile-2018-02-24-18-05-59-101.rawproto
+build/android-profile/profile-2018-02-24-18-06-18-686.rawproto
