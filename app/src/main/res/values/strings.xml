@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">StudentApplication</string>
+    <string name="hint_word">Class Name</string>
+    <string name="button_save">save</string>
+    <string name="empty_not_saved">Class not saved because it is empty</string>
+    <string name="night_mode">Night Mode</string>
+    <string name="day_mode">Day Mode</string>
+</resources>

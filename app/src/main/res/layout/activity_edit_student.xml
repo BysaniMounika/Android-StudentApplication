@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/edit_student_activity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.android.studentapplication.EditStudentActivity"
+    android:background="@drawable/add_student_background3">
+
+    <EditText
+        android:id="@+id/edit_student_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="cursive"
+        android:layout_margin="16dp"
+        android:inputType="textAutoComplete"
+        android:hint="Enter Student Name"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:padding="@dimen/small_padding"
+        android:textSize="30sp"/>
+
+    <EditText
+        android:id="@+id/edit_student_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="cursive"
+        android:layout_margin="16dp"
+        android:inputType="numberDecimal|numberSigned"
+        android:hint="Enter Phone Number"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:padding="@dimen/small_padding"
+        android:textSize="30sp"/>
+
+    <Button
+        android:id="@+id/button_save2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="returnReply2"
+        android:layout_margin="16dp"
+        android:background="@drawable/button_background"
+        android:text="@string/button_save"
+        android:textColor="#FFFFFF"/>
+</LinearLayout>
