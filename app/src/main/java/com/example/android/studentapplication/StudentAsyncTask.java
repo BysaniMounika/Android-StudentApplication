@@ -47,11 +47,11 @@ public class StudentAsyncTask extends AsyncTask<String, String, String> {
         try {
 
             if(requestCode == 3) {
-                url = new URL("http://192.168.10.214:3000/section/student/delete"); // here is your URL path
+                url = new URL("http://testbed2.riktamtech.com:3000/section/student/delete"); // here is your URL path
             } else if(requestCode == 1) {
-                url = new URL("http://192.168.10.214:3000/section/student/add"); // here is your URL path
+                url = new URL("http://testbed2.riktamtech.com:3000/section/student/add"); // here is your URL path
             } else if(requestCode == 2) {
-                url = new URL("http://192.168.10.214:3000/section/student/edit"); // here is your URL path
+                url = new URL("http://testbed2.riktamtech.com:3000/section/student/edit"); // here is your URL path
             }
 
             //URL url = new URL("http://192.168.10.214:3000/section/add"); // here is your URL path

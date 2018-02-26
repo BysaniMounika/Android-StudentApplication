@@ -228,7 +228,7 @@ public class StudentActivity extends AppCompatActivity implements NetworkStateRe
         protected String doInBackground(String... strings) {
             try {
 
-                URL url = new URL("http://192.168.10.214:3000/section/students"); // here is your URL path
+                URL url = new URL("http://testbed2.riktamtech.com:3000/section/students"); // here is your URL path
                 //URL url = new URL("http://192.168.10.214:3000/section/add"); // here is your URL path
                 JSONObject postDataParams = new JSONObject();
                 postDataParams.put("class_id", class_id);

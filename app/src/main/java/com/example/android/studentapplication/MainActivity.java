@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements NetworkStateRecei
                 // Enter URL address where your json file resides
                 // Even you can make call to php file which returns json data
 
-                url = new URL("http://192.168.10.214:3000/sections");
+                url = new URL("http://testbed2.riktamtech.com:3000/sections");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
