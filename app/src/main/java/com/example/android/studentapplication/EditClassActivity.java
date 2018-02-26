@@ -1,7 +1,9 @@
 package com.example.android.studentapplication;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PorterDuff;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,13 +14,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class EditClassActivity extends AppCompatActivity {
+public class EditClassActivity extends AppCompatActivity implements NetworkStateReceiver.NetworkStateReceiverListener{
 
     private static final String TAG = EditClassActivity.class.getSimpleName();
 
     private static final int NO_ID = -99;
     private static final String NO_CLASS = "";
-
+    private NetworkStateReceiver networkStateReceiver;
     private EditText mEditClassView;
     private LinearLayout editClass;
     private TextWatcher textWatcher;
@@ -30,6 +32,12 @@ public class EditClassActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_class);
+
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(this);
+        this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+
+
         editClass = (LinearLayout) findViewById(R.id.edit_class_activity);
         if(MainActivity.light == 1) {
             editClass.getBackground().setColorFilter(null);
@@ -105,4 +113,24 @@ public class EditClassActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void networkAvailable() {
+        Snackbar snackbar = Snackbar
+                .make(editClass, "Internet connection available", Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        networkStateReceiver.removeListener(this);
+        this.unregisterReceiver(networkStateReceiver);
+    }
+
+    @Override
+    public void networkUnavailable() {
+        Snackbar snackbar = Snackbar
+                .make(editClass, "Internet connection unavailable", Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
 }

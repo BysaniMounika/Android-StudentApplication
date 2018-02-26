@@ -1,8 +1,10 @@
 package com.example.android.studentapplication;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,10 +16,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class EditStudentActivity extends AppCompatActivity {
+public class EditStudentActivity extends AppCompatActivity implements NetworkStateReceiver.NetworkStateReceiverListener{
 
     private static final String TAG = EditStudentActivity.class.getSimpleName();
-
+    private NetworkStateReceiver networkStateReceiver;
     private static final int NO_ID = -99;
     private static final String NO_NAME = "";
     private static final String NO_PHN="";
@@ -62,6 +64,11 @@ public class EditStudentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_student);
+
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(this);
+        this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+
         mEditStudentNameView = (EditText) findViewById(R.id.edit_student_name);
         mEditStudentPhoneNumberView = (EditText) findViewById(R.id.edit_student_phone_number);
         TextWatcher textWatcher = new TextWatcher() {
@@ -152,6 +159,8 @@ public class EditStudentActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("Log","Destroy2");
+        networkStateReceiver.removeListener(this);
+        this.unregisterReceiver(networkStateReceiver);
     }
 
     @Override
@@ -182,5 +191,19 @@ public class EditStudentActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.d("Log","start2");
+    }
+
+    @Override
+    public void networkAvailable() {
+        Snackbar snackbar = Snackbar
+                .make(editStudent, "Internet connection available", Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
+    @Override
+    public void networkUnavailable() {
+        Snackbar snackbar = Snackbar
+                .make(editStudent, "Internet connection unavailable", Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 }

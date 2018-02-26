@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
@@ -42,7 +44,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class StudentActivity extends AppCompatActivity {
+public class StudentActivity extends AppCompatActivity implements NetworkStateReceiver.NetworkStateReceiverListener{
 
     public static final int STUDENT_EDIT = 1;
     public static final int STUDENT_ADD = -1;
@@ -50,10 +52,17 @@ public class StudentActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView2;
     private StudentListAdapter mAdapter2;
     private CoordinatorLayout studentActivity;
+    private NetworkStateReceiver networkStateReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student);
+
+
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(this);
+        this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
 
         Bundle extra = getIntent().getExtras();
         studentActivity = (CoordinatorLayout) findViewById(R.id.student_activity);
@@ -84,6 +93,8 @@ public class StudentActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("Log","Destroy");
+        networkStateReceiver.removeListener(this);
+        this.unregisterReceiver(networkStateReceiver);
     }
 
     @Override
@@ -170,6 +181,21 @@ public class StudentActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public void networkAvailable() {
+        Snackbar snackbar = Snackbar
+                .make(studentActivity, "Internet connection available", Snackbar.LENGTH_LONG);
+        snackbar.show();
+        new FetchStudents(this,CLASS_ID).execute();
+    }
+
+    @Override
+    public void networkUnavailable() {
+        Snackbar snackbar = Snackbar
+                .make(studentActivity, "Internet connection unavailable", Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 
 

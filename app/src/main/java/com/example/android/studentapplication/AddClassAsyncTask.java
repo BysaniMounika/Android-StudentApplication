@@ -47,7 +47,6 @@ public class AddClassAsyncTask extends AsyncTask<String,String, String> {
     @Override
     protected void onPostExecute(String s) {
         Log.d("RESULT",s);
-        Toast.makeText(mContext,s,Toast.LENGTH_SHORT).show();
     }
 
     @Override

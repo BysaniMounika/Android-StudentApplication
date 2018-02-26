@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
@@ -38,13 +42,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.lang.Object;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NetworkStateReceiver.NetworkStateReceiverListener{
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     public static final int CLASS_EDIT = 1;
     public static final int CLASS_ADD = -1;
 
+    private NetworkStateReceiver networkStateReceiver;
     private  RecyclerView mRecyclerView;
     private ClassListAdapter mAdapter;
     private ClassListOpenHelper mDB;
@@ -54,10 +59,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     public static int  light = 1;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        networkStateReceiver.removeListener(this);
+        this.unregisterReceiver(networkStateReceiver);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(this);
+        this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
         main = (CoordinatorLayout) findViewById(R.id.main_activity);
 
         //call to Async Task
@@ -126,6 +142,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void networkAvailable() {
+        Log.d("tommydevall", "I'm in, baby!");
+        Snackbar snackbar = Snackbar
+                .make(main, "Internet connection available", Snackbar.LENGTH_LONG);
+        snackbar.show();
+        new FetchClasses(MainActivity.this).execute();
+    }
+
+    @Override
+    public void networkUnavailable() {
+        Log.d("tommydevall", "I'm dancing with myself");
+        Snackbar snackbar = Snackbar
+                .make(main, "Internet connection unavailable", Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
     public  class FetchClasses extends AsyncTask<String, String, String> {
         Context mContext;
         Activity activity;
@@ -150,10 +183,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
+            ConnectivityManager conMan = (ConnectivityManager) getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = conMan.getActiveNetworkInfo();
+            if(networkInfo == null || !networkInfo.isConnected()) {
+                return ("Check Internet Connection");
+            }
             try {
 
                 // Enter URL address where your json file resides
                 // Even you can make call to php file which returns json data
+
                 url = new URL("http://192.168.10.214:3000/sections");
 
             } catch (MalformedURLException e) {
